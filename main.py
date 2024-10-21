@@ -12,5 +12,8 @@ categorize_service = CategorizeService(gpt_model)
 
 @app.post("/ai/classify")
 async def classify(req: ClassifyRequest):
+    """
+    메인 카테고리 분류 엔드포인트
+    """
     category = categorize_service.categorize(req.content)
     return ClassifyResultResponse(category=category)
