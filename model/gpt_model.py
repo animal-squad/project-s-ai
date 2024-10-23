@@ -1,6 +1,11 @@
 import openai
+from openai import OpenAI
+
 
 class GPTModel:
+    def __init__(self):
+        self.client = OpenAI()
+
     def generate_response(self, prompt: str, user_message: str) -> str:
         """
         프롬프트와 사용자 메시지가 주어지면 GPT의 결과를 반환
@@ -13,7 +18,7 @@ class GPTModel:
             {"role": "user", "content": user_message}
         ]
 
-        response = openai.chat.completions.create(
+        response = self.client.chat.completions.create(
             model="gpt-4o-mini",
             messages=messages,
         )
