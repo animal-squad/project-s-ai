@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from entity.reqeust_dto import CategorizeMainRequest
+from entity.request_dto import CategorizeMainRequest
 from entity.response_dto import CategorizeMainResponse
 from model.gpt_model import GPTModel
 from service.categorize_service import CategorizeService
