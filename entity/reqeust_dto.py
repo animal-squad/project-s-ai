@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
-class ClassifyRequest(BaseModel):
+class CategorizeMainRequest(BaseModel):
     type: str
     content: str
