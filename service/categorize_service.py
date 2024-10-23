@@ -2,6 +2,7 @@ import json
 
 from model.gpt_model import GPTModel
 
+
 class CategorizeService:
     """
     주어진 텍스트의 카테고리를 분류하는 서비스
