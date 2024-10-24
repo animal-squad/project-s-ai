@@ -31,7 +31,7 @@ class CategorizeService:
         하위 카테고리를 분류
         :param content: 분류하려는 텍스트
         :param main_category: 텍스트의 주요 카테고리
-        :param all_sub_categories: 텍스트의 하위 카테고리 목록
+        :param all_sub_categories: 주요 카테고리의 하위 카테고리 목록
         :return:
         """
 
