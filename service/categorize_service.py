@@ -23,6 +23,11 @@ class CategorizeService:
             self.main_category_prompt = f.read()
 
     def categorize_contents(self, contents: list[LinkInfo]) -> list[LinkWithTags]:
+        """
+        링크들의 태그를 부여
+        :param contents: 분류하려는 링크들의 정보
+        :return: 각 링크들의 분류된 태그들, linkId, title
+        """
         results = []
         for link_info in contents:
             if len(link_info.content) < 15:
@@ -42,7 +47,7 @@ class CategorizeService:
 
     def categorize_main(self, content: str) -> list[str]:
         """
-        메인 카테고리를 분류
+        내용의 태그를 부여
         :param content: 분류하려는 텍스트
         :return: 분류된 여러개의 태그
         """
