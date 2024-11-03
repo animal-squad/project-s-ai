@@ -1,5 +1,6 @@
 from model.gpt_model import GPTModel
 
+from entity.link_info import LinkWithTags, LinkInfo
 
 def get_tags(result: str) -> list[str]:
     result = result.split("'")[1:-1]
@@ -21,6 +22,24 @@ class CategorizeService:
         with open("prompt/main_category", "r") as f:
             self.main_category_prompt = f.read()
 
+    def categorize_contents(self, contents: list[LinkInfo]) -> list[LinkWithTags]:
+        results = []
+        for link_info in contents:
+            if len(link_info.content) < 10:
+                title = link_info.content
+            else:
+                title = link_info.content[:15] + "..."
+
+            data = {
+                "linkId": link_info.linkId,
+                "title": title,
+                "tags": self.categorize_main(link_info.content)
+            }
+
+            results.append(LinkWithTags(**data))
+
+        return results
+
     def categorize_main(self, content: str) -> list[str]:
         """
         메인 카테고리를 분류
@@ -30,3 +49,11 @@ class CategorizeService:
         category = self.gpt_model.generate_response(self.main_category_prompt, content)
 
         return get_tags(category)
+
+if __name__ == "__main__":
+
+    categorize_service = CategorizeService(GPTModel())
+    print(categorize_service.categorize_contents([
+        LinkInfo(**{"linkId": 1, "link": "test", "content": "프론트엔드 입문자들에게 좋은 링크 모음 (React 위주)"}),
+        LinkInfo(**{"linkId": 2, "link": "test", "content": "[Java] 자바의 이해"})
+    ]))
