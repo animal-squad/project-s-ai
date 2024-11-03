@@ -1,6 +1,14 @@
-import json
-
 from model.gpt_model import GPTModel
+
+
+def get_tags(result: str) -> list[str]:
+    result = result.split("'")[1:-1]
+    tags = []
+    for tag in result:
+        if tag.find(",") == -1:
+            tags.append(tag)
+
+    return tags
 
 
 class CategorizeService:
@@ -13,12 +21,12 @@ class CategorizeService:
         with open("prompt/main_category", "r") as f:
             self.main_category_prompt = f.read()
 
-    def categorize_main(self, content: str) -> str:
+    def categorize_main(self, content: str) -> list[str]:
         """
         메인 카테고리를 분류
         :param content: 분류하려는 텍스트
-        :return: 분류된 1개의 카테고리
+        :return: 분류된 여러개의 태그
         """
-        category = json.loads(self.gpt_model.generate_response(self.main_category_prompt, content))
+        category = self.gpt_model.generate_response(self.main_category_prompt, content)
 
-        return category["main_categories"][0]
+        return get_tags(category)
