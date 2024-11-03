@@ -25,7 +25,7 @@ class CategorizeService:
     def categorize_contents(self, contents: list[LinkInfo]) -> list[LinkWithTags]:
         results = []
         for link_info in contents:
-            if len(link_info.content) < 10:
+            if len(link_info.content) < 15:
                 title = link_info.content
             else:
                 title = link_info.content[:15] + "..."
