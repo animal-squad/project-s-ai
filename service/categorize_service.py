@@ -49,11 +49,3 @@ class CategorizeService:
         category = self.gpt_model.generate_response(self.main_category_prompt, content)
 
         return get_tags(category)
-
-if __name__ == "__main__":
-
-    categorize_service = CategorizeService(GPTModel())
-    print(categorize_service.categorize_contents([
-        LinkInfo(**{"linkId": 1, "link": "test", "content": "프론트엔드 입문자들에게 좋은 링크 모음 (React 위주)"}),
-        LinkInfo(**{"linkId": 2, "link": "test", "content": "[Java] 자바의 이해"})
-    ]))
