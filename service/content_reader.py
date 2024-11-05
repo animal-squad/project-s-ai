@@ -1,3 +1,6 @@
+import requests
+
+
 class ContentReader:
     def can_crawl(self, url: str) -> bool:
         """
@@ -9,11 +12,13 @@ class ContentReader:
 
     def fetch_html_content(self, url: str) -> str:
         """
-        주어진 URL의 HTML 정보를 반환
+        주어진 URL의 HTML 정보를 반환. 주어진 URL은 크롤링이 가능하여야 합니다.
         :param url: 정보를 얻어오려는 URL
         :return: 읽은 HTML
         """
-        pass
+        response = requests.get(url)
+
+        return response.text
 
     def perform_google_search(self, query: str) -> str | None:
         """
