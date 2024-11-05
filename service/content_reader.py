@@ -15,18 +15,21 @@ class ContentReader:
         """
         pass
 
-    def perform_google_search(self, query: str) -> str:
+    def perform_google_search(self, query: str) -> str | None:
         """
-        주어진 쿼리를 Google에 검색한 결과를 반환
+        주어진 쿼리를 Google에 검색한 결과를 반환. 결과가 없다면 None 반환
         :param query: Google에 검색하려는 쿼리
         :return: 검색한 결과
         """
         pass
 
-    def read_content(self, url: str) -> str:
+    def read_content(self, url: str) -> str | None:
         """
-        URL의 컨텐츠 정보를 반환합니다. 만약 정보를 읽을 수 없다면 "기타"를 반환합니다.
+        URL의 컨텐츠 정보를 반환. 만약 정보를 읽을 수 없다면 None 반환
         :param url:
         :return:
         """
-        pass
+        if self.can_crawl(url):
+            return self.fetch_html_content(url)
+        else:
+            return self.perform_google_search(url)
