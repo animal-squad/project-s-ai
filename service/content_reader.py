@@ -1,7 +1,14 @@
+import json
+import os
+
 import requests
 
 
 class ContentReader:
+    def __init__(self):
+        self.GOOGLE_SEARCH_API_KEY = os.getenv("GOOGLE_SEARCH_API_KEY")
+        self.GOOGLE_SEARCH_CX = os.getenv("GOOGLE_SEARCH_CX")
+
     def can_crawl(self, url: str) -> bool:
         """
         주어진 URL의 robots.txt를 읽어 크롤링 할 수 있는지 없는지 판단
@@ -26,7 +33,17 @@ class ContentReader:
         :param query: Google에 검색하려는 쿼리
         :return: 검색한 결과
         """
-        pass
+        request = f"https://www.googleapis.com/customsearch/v1?key={self.GOOGLE_SEARCH_API_KEY}&cx={self.GOOGLE_SEARCH_CX}&q={query}"
+        response = requests.get(request)
+
+        results = json.loads(response.text)
+        content = ""
+        try:
+            for result in results["items"]:
+                content += result["snippet"]
+            return content
+        except KeyError:
+            return None
 
     def read_content(self, url: str) -> str | None:
         """
