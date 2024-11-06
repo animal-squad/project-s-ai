@@ -77,18 +77,14 @@ class CrawlabilityChecker:
         ):  # 크롤링 가능
             return True
 
-        all_agent = robots_txt["*"]
-        if not all_agent["Disallow"]:  # Disallow가 없다면 크롤링 가능
-            return True
-
         # Disallow가 있는 경우
+        all_agent = robots_txt["*"]
         if "/" in all_agent["Disallow"]:  # Disallow: "/"라면 크롤링 불가능
             return False
 
         # 모든 Disallow의 path를 확인하며 현재 URL의 path와 비교
-        can = True
+        can_crawl_flag = True
         target_path_list = parsed_url["path"].split("/")
-
         for disallow in all_agent["Disallow"]:
             disallow_path_list = disallow.split("/")
 
@@ -99,7 +95,7 @@ class CrawlabilityChecker:
                     break
 
             if is_disallow:
-                can = False
+                can_crawl_flag = False
                 break
 
-        return can
+        return can_crawl_flag
