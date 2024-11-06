@@ -3,19 +3,14 @@ import os
 
 import requests
 
+from service.crawlability_checker import CrawlabilityChecker
+
 
 class ContentReader:
-    def __init__(self):
+    def __init__(self, crawlability_checker: CrawlabilityChecker):
         self.GOOGLE_SEARCH_API_KEY = os.getenv("GOOGLE_SEARCH_API_KEY")
         self.GOOGLE_SEARCH_CX = os.getenv("GOOGLE_SEARCH_CX")
-
-    def can_crawl(self, url: str) -> bool:
-        """
-        주어진 URL의 robots.txt를 읽어 크롤링 할 수 있는지 없는지 판단
-        :param url: 판단하려는 URL
-        :return: 크롤링 할 수 있는지 여부
-        """
-        pass
+        self.crawlability_checker = crawlability_checker
 
     def fetch_html_content(self, url: str) -> str:
         """
@@ -48,10 +43,12 @@ class ContentReader:
     def read_content(self, url: str) -> str | None:
         """
         URL의 컨텐츠 정보를 반환. 만약 정보를 읽을 수 없다면 None 반환
-        :param url:
+        :param url: 내용을 알고 싶은 URL
         :return:
+            읽을 수 있는 정보 반환
+            읽을 수 없는 정보라면 None 반환
         """
-        if self.can_crawl(url):
+        if self.crawlability_checker.can_crawl(url):
             return self.fetch_html_content(url)
         else:
             return self.perform_google_search(url)
