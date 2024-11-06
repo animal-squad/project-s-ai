@@ -88,12 +88,14 @@ class CrawlabilityChecker:
         for disallow in all_agent["Disallow"]:
             disallow_path_list = disallow.split("/")
 
-            is_disallow = True
+            is_disallow = True  # 주어진 URL이 현재 검사하려는 Disallow path와 같은지
             for idx, path in enumerate(disallow_path_list):
+                # disallow path와 URL의 path가 다른 경우
                 if path != "*" and target_path_list[idx] != path:
                     is_disallow = False
                     break
 
+            # disallow path와 URL의 path가 같은 경우
             if is_disallow:
                 can_crawl_flag = False
                 break
