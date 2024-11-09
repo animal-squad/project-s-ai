@@ -13,6 +13,8 @@ Project S AI 파트 repository입니다.
     ```shell
     export PYTHONPATH="${PYTHONPATH}:<현재 디렉토리>"
     export OPENAI_API_KEY="<api_key>"
+    export GOOGLE_SEARCH_API_KEY="<google_search_api_key>"
+    export GOOGLE_SEARCH_CX="<google_search_cx>" 
     ```
 3. 서버 실행
     ```shell
