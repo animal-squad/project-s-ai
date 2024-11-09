@@ -26,9 +26,11 @@ class ContentReader:
 
     def perform_google_search(self, query: str) -> dict[str, str] | None:
         """
-        주어진 쿼리를 Google에 검색한 결과를 반환. 결과가 없다면 None 반환
+        주어진 쿼리를 Google에 검색한 결과를 반환.
         :param query: Google에 검색하려는 쿼리
-        :return: 검색한 결과
+        :return:
+            검색한 결과 { "title": string, "content": string }
+            결과가 없다면 None을 반환합니다.
         """
         request = f"https://www.googleapis.com/customsearch/v1?key={self.GOOGLE_SEARCH_API_KEY}&cx={self.GOOGLE_SEARCH_CX}&q={query}"
         response = requests.get(request)
@@ -43,6 +45,12 @@ class ContentReader:
             return None
 
     def extract(self, url: str, content: str) -> dict[str, str] | None:
+        """
+        주어진 URL에 따라 HTML 내용에서 주요 정보를 추출합니다.
+        :param url: HTML의 정보를 추출한 URL
+        :param content: HTML 정보
+        :return: 추출한 주요 정보
+        """
         if url.find("youtube.com/watch") != -1:
             return self.content_extractor.extract_youtube(content)
         elif url.find("velog.io/@") != -1:
