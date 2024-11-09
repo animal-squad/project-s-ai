@@ -24,7 +24,7 @@ class ContentReader:
 
         return response.text
 
-    def perform_google_search(self, query: str) -> str | None:
+    def perform_google_search(self, query: str) -> dict[str, str] | None:
         """
         주어진 쿼리를 Google에 검색한 결과를 반환. 결과가 없다면 None 반환
         :param query: Google에 검색하려는 쿼리
@@ -38,7 +38,7 @@ class ContentReader:
         try:
             for result in results["items"]:
                 content += result["snippet"]
-            return content
+            return { "title": results["items"][0]["title"], "content": content }
         except KeyError:
             return None
 
