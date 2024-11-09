@@ -4,7 +4,7 @@ import requests
 
 
 class CrawlabilityChecker:
-    def robots_txt_parser(self, url: str) -> dict | None:
+    def robots_txt_parser(self, url: str) -> dict[str, dict[str, list[str]]] | None:
         """
         robots.txt 파일을 읽어 각 User-agent 별로 허용되는/되지않는 도메인을 분류
         :param url: {protocol}://{domain}/robots.txt 형태의 URL
@@ -25,17 +25,21 @@ class CrawlabilityChecker:
 
         recent_agent = ""
         for info in texts:
-            if info.find("User-agent") != -1:
-                recent_agent = info.split(":")[1].strip()
-                allow_disallow_info[recent_agent] = {"Allow": [], "Disallow": []}
-            elif info.find("Allow") != -1:
-                allow_disallow_info[recent_agent]["Allow"].append(info.split(":")[1].strip())
-            elif info.find("Disallow") != -1:
-                allow_disallow_info[recent_agent]["Disallow"].append(info.split(":")[1].strip())
+            if info.find(":") != -1:
+                key, value = info.split(":")[:2]
+                key = key.lower()
+
+                if key.find("user-agent") != -1:
+                    recent_agent = value.strip()
+                    allow_disallow_info[recent_agent] = {"Allow": [], "Disallow": []}
+                elif key.find("disallow") != -1:
+                    allow_disallow_info[recent_agent]["Disallow"].append(value.strip())
+                elif key.find("allow") != -1:
+                    allow_disallow_info[recent_agent]["Allow"].append(value.strip())
 
         return allow_disallow_info
 
-    def parse_url(self, url: str) -> dict:
+    def parse_url(self, url: str) -> dict[str, str]:
         """
         주어진 URL을 protocol, domain, path, query로 분류
         :param url: 분류하려는 URL
