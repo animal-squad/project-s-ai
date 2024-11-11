@@ -41,7 +41,10 @@ class CategorizeService:
                 data["tags"] = self.categorize_main(content_info["title"], content_info["content"])
             else:
                 data["title"] = None
-                data["tags"] = ["기타"]
+                data["tags"] = []
+
+            if not data["tags"]:
+                data["tags"].append("기타")
 
             results.append(LinkWithTags(**data))
 
