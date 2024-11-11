@@ -17,7 +17,7 @@ class ContentExtractor:
     
     def extract_youtube(self, html_content):
         soup, _ = self.__preprocess(html_content)
-        
+
         title = soup.find('title')
         content = soup.find('meta', attrs={'name': 'description'})["content"]
 
