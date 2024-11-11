@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 class LinkInfo(BaseModel):
     linkId: int
-    link: str
+    URL: str
     content: str | None
 
 class LinkWithTags(BaseModel):
