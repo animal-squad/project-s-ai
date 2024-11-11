@@ -18,8 +18,8 @@ class ContentExtractor:
     def extract_youtube(self, html_content):
         soup, _ = self.__preprocess(html_content)
         
-        title = soup.find('yt-formatted-string', class_='style-scope ytd-watch-metadata')
-        content = soup.find('span', class_='yt-core-attributed-string--link-inherit-color')
+        title = soup.find('title')
+        content = soup.find('meta', attrs={'name': 'description'})["content"]
         
         return title if title else None, content if content else None
     
@@ -27,7 +27,7 @@ class ContentExtractor:
     def extract_velog(self, html_content):
         soup, _ = self.__preprocess(html_content)
         
-        title = soup.find('div', class_='head_wrapper')
+        title = soup.find('meta', property='og:title')["content"]
         content = soup.find('div', class_='sc-eGRUor gdnhbG atom-one')
         
         return title if title else None, content if content else None
@@ -40,19 +40,21 @@ class ContentExtractor:
         content = soup.find('div', {
             'contenteditable': 'false', 
             'class': 'ProseMirror remirror-editor remirror-a11y-dark'
-        })
+        }).text
         
         return title if title else None, content if content else None
-    
+
+   
     
     def extract_tistory(self, html_content):
         soup, _ = self.__preprocess(html_content)
         
         title = (
+            soup.find('meta', property='og:title')["content"] or
             soup.find('title') or
             soup.find('h2') or
             soup.find('h1') or
-            soup.find('p', class_='txt_sub_tit')
+            soup.find('p', class_='txt_sub_tit') 
         )
         content = (
             soup.find('div', id='article-view') or
