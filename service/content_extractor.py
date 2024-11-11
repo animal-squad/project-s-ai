@@ -17,10 +17,10 @@ class ContentExtractor:
     
     def extract_youtube(self, html_content):
         soup, _ = self.__preprocess(html_content)
-        
+
         title = soup.find('title')
         content = soup.find('meta', attrs={'name': 'description'})["content"]
-        
+
         return title if title else None, content if content else None
     
 
@@ -43,8 +43,6 @@ class ContentExtractor:
         }).text
         
         return title if title else None, content if content else None
-
-   
     
     def extract_tistory(self, html_content):
         soup, _ = self.__preprocess(html_content)
@@ -54,7 +52,7 @@ class ContentExtractor:
             soup.find('title') or
             soup.find('h2') or
             soup.find('h1') or
-            soup.find('p', class_='txt_sub_tit') 
+            soup.find('p', class_='txt_sub_tit')
         )
         content = (
             soup.find('div', id='article-view') or

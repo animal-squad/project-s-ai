@@ -52,15 +52,15 @@ class ContentReader:
         :return: 추출한 주요 정보
         """
         if url.find("youtube.com/watch") != -1:
-            return self.content_extractor.extract_youtube(content)
+            return self.content_extractor.process_content(content, self.content_extractor.extract_youtube)
         elif url.find("velog.io/@") != -1:
-            return self.content_extractor.extract_velog(content)
+            return self.content_extractor.process_content(content, self.content_extractor.extract_velog)
         elif url.find("okky.kr/questions") != -1 or url.find("okky.kr/articles") != -1:
-            return self.content_extractor.extract_okky(content)
+            return self.content_extractor.process_content(content, self.content_extractor.extract_okky)
         elif url.find("tistory.com") != -1:
-            return self.content_extractor.extract_tistory(content)
+            return self.content_extractor.process_content(content, self.content_extractor.extract_tistory)
         else:
-            return self.content_extractor.extract_generic(content)
+            return self.content_extractor.process_content(content, self.content_extractor.extract_generic)
 
     def read_content(self, url: str, content: str | None) -> dict[str, str] | None:
         """

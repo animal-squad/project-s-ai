@@ -25,7 +25,6 @@ async def classify_main(req: CategorizeRequest):
     """
     data = {
         "links": categorize_service.categorize_contents(req.links),
-        "userId": req.userId
     }
 
     return CategorizeResponse(**data)

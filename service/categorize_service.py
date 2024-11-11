@@ -35,13 +35,16 @@ class CategorizeService:
             data = {
                 "linkId": link_info.linkId,
             }
-            content_info = self.content_reader.read_content(link_info.link, link_info.content)
+            content_info = self.content_reader.read_content(link_info.URL, link_info.content)
             if content_info:
                 data["title"] = content_info["title"]
                 data["tags"] = self.categorize_main(content_info["title"], content_info["content"])
             else:
                 data["title"] = None
-                data["tags"] = ["기타"]
+                data["tags"] = []
+
+            if not data["tags"]:
+                data["tags"].append("기타")
 
             results.append(LinkWithTags(**data))
 
