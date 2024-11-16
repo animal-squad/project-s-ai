@@ -11,7 +11,7 @@ pipeline {
         JENKINS_NAMESPACE = 'devops' // Kaniko Pod를 실행할 네임스페이스
     }
     parameters {
-        string(name: 'DEPLOYMENT_NAMESPACE', defaultValue: 'service', description: '배포할 Kubernetes 네임스페이스') // 설정
+        string(name: 'DEPLOYMENT_NAMESPACE', defaultValue: 'linket', description: '배포할 Kubernetes 네임스페이스') // 설정
         string(name: 'DEPLOYMENT_NAME', defaultValue: 'ai-deployment', description: '배포할 Deployment 이름') // 설정
         string(name: 'DEPLOYMENT_CONTAINER_NAME', defaultValue: 'ai-container', description: 'Deployment 내 컨테이너 이름') // 설정
     }
