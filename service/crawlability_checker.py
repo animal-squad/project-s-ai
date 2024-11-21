@@ -26,6 +26,9 @@ class CrawlabilityChecker:
 
         recent_agent = ""
         for info in texts:
+            if len(info) and info[0] == '#':
+                continue
+
             if info.find(":") != -1:
                 key, value = info.split(":")[:2]
                 key = key.lower()
