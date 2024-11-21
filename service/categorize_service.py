@@ -1,3 +1,5 @@
+import logging
+
 from entity.link_info import LinkWithTags, LinkInfo
 from model.gpt_model import GPTModel
 from service.content_reader import ContentReader
@@ -18,9 +20,10 @@ class CategorizeService:
     주어진 텍스트의 카테고리를 분류하는 서비스
     :param gpt_model: 사용하려는 GPT 모델을 주입
     """
-    def __init__(self, gpt_model: GPTModel, content_reader: ContentReader):
+    def __init__(self, gpt_model: GPTModel, content_reader: ContentReader, logger: logging.Logger):
         self.content_reader = content_reader
         self.gpt_model = gpt_model
+        self.logger = logger
         with open("prompt/main_category", "r") as f:
             self.main_category_prompt = f.read()
 
@@ -35,7 +38,17 @@ class CategorizeService:
             data = {
                 "linkId": link_info.linkId,
             }
-            content_info = self.content_reader.read_content(link_info.URL, link_info.content)
+
+            try:
+                content_info = self.content_reader.read_content(link_info.URL, link_info.content)
+            except Exception as e:
+                content_info = None
+                error_type = type(e).__name__
+                self.logger.error(
+                    f"Failed to read content for URL: {link_info.URL}.\n"
+                    f"Error Type: {error_type}, Message: {e}"
+                )
+
             if content_info:
                 data["title"] = content_info["title"]
                 data["tags"] = self.categorize_main(content_info["title"], content_info["content"])
