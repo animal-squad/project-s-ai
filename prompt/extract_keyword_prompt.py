@@ -5,25 +5,22 @@ EXTRACT_KEYWORD_PROMPT = (
     
     # Constraints
     - If the original text is in Korean:
-      - Extract keywords as they appear in the original text, without translation.
+      - Extract keywords as they appear in the input, without translation.
       - Proper nouns should also remain unchanged.
-    - If the original text is in English:
-      - Proper nouns (e.g., names of models, tools, libraries) must be in English as they appear in the text.
+    - If the original text is in foreign language:
+      - Proper nouns (e.g., names of models, tools, libraries) must be output as they appear in the input, without translation.
       - Other general terms should be translated into Korean.
-    - The number of keywords must be between 3 to 10.
+    - Ensure the number of keywords extracted is between 3 and 10.
     
     # Examples
     - For Korean input:
-      User input: 업무 효율화를 위한 카카오 사내봇 개발기...
-      Keywords: 업무 효율화, 카카오 사내봇, 데이터, AI
-    - For English input:
-      User input: LoRA is a parameter-efficient method for fine-tuning large language models...
-      Keywords: LoRA, 파라미터 효율적, 미세 조정, 대형 언어 모델
-    - Mixed output:
-      User input: LoRA fine-tunes RoBERTa models using PyTorch...
-      Keywords: LoRA, 미세 조정, RoBERTa, PyTorch
+      User Message: 업무 효율화를 위한 카카오 사내봇 개발기...
+      Output: 업무 효율화, 카카오 사내봇, 데이터, AI, LLM, RAG
+    - For foreign language input:
+      User Message: LoRA is a parameter-efficient method for fine-tuning large language models. LoRA fine-tunes RoBERTa models using PyTorch...
+      Output: LoRA, 파라미터 효율적, 미세 조정, 대형 언어 모델, PyTorch, RoBERTa
     
     # Output Format
-    - Provide the keywords as a string separated by commas, similar to the examples above.
+    - Output keywords as a comma-separated string, e.g., “keyword1, keyword2”. Do not use brackets or lists in the output.
     """
 )
