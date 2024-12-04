@@ -19,14 +19,7 @@ class MetadataExtractor:
 
     @staticmethod
     def _parse_response(response: str) -> list[str]:
-        parse_single_quotes = response.split("'")[1:-1]
-
-        result = []
-        for tag in parse_single_quotes:
-            if tag.find(",") == -1:
-                result.append(tag)
-
-        return result
+        return list(map(str.strip, response.split(",")))
 
     def extract_metadata_batch(self, contents: list[LinkInfo]) -> list[LinkWithTags]:
         """
@@ -53,6 +46,7 @@ class MetadataExtractor:
             if content_info:
                 data["title"] = content_info["title"]
                 data["tags"] = self.extract_metadata(content_info["title"], content_info["content"], EXTRACT_TAG_PROMPT)
+                data["keywords"] = self.extract_metadata(content_info["title"], content_info["content"], EXTRACT_KEYWORD_PROMPT)
             else:
                 data["title"] = None
                 data["tags"] = []
