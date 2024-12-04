@@ -1,7 +1,6 @@
 from urllib.parse import urlparse, parse_qs
 
 import requests
-from requests.packages import target
 
 
 class CrawlabilityChecker:
