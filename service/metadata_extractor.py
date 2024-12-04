@@ -8,10 +8,6 @@ from service.content_reader import ContentReader
 
 
 class MetadataExtractor:
-    """
-    주어진 텍스트의 카테고리를 분류하는 서비스
-    :param gpt_model: 사용하려는 GPT 모델을 주입
-    """
     def __init__(self, gpt_model: GPTModel, content_reader: ContentReader, logger: logging.Logger):
         self.content_reader = content_reader
         self.gpt_model = gpt_model
@@ -23,9 +19,9 @@ class MetadataExtractor:
 
     def extract_metadata_batch(self, contents: list[LinkInfo]) -> list[LinkWithTags]:
         """
-        링크들의 태그를 부여
-        :param contents: 분류하려는 링크들의 정보
-        :return: 각 링크들의 분류된 태그들, linkId, title
+        여러 링크들의 메타데이터를 추출
+        :param contents: 데이터를 추출하려는 링크들의 정보
+        :return: 각 링크들에 부여된 태그, 키워드, linkId, title
         """
         results = []
         for link_info in contents:
@@ -61,9 +57,10 @@ class MetadataExtractor:
 
     def extract_metadata(self, title: str, content: str, prompt: str) -> list[str]:
         """
-        내용의 태그를 부여
-        :param title: 분류하려는 텍스트의 제목
-        :param content: 분류하려는 텍스트
+        주어진 텍스트를 GPT를 통해 메타데이터를 추출
+        :param title: 글의 제목
+        :param content: 글의 내용
+        :param prompt: 메타데이터를 추출하기 위한 프롬프트
         :return: 분류된 여러개의 태그
         """
         query = f"{title if title else ''}\n\n{content if content else ''}"
