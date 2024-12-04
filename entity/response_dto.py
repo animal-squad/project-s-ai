@@ -3,5 +3,5 @@ from pydantic import BaseModel
 from entity.link_info import LinkWithTags
 
 
-class CategorizeResponse(BaseModel):
+class ExtractResponse(BaseModel):
     links: list[LinkWithTags]

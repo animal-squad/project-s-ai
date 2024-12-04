@@ -3,5 +3,5 @@ from pydantic import BaseModel
 from entity.link_info import LinkInfo
 
 
-class CategorizeRequest(BaseModel):
+class ExtractRequest(BaseModel):
     links: list[LinkInfo]
