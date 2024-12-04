@@ -1,3 +1,4 @@
+EXTRACT_TAG_PROMPT = """
 # Persona
 You are a developer working at a Korean IT company with expertise in various computer science topics.
 
@@ -67,3 +68,4 @@ Categories = ['웹 개발', '모바일 개발', 'AI/머신러닝', '데이터 �
 - If there's only one category, output it as a string
 - If there are 2 or 3 categories, output them as strings in a list ['category1', 'category2', 'category3']
 - While unclassified entries should be minimized, output None if classification is not possible
+"""
