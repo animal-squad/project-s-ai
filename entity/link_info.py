@@ -1,11 +1,12 @@
 from pydantic import BaseModel
 
 class LinkInfo(BaseModel):
-    linkId: int
+    linkId: str
     URL: str
     content: str | None
 
 class LinkWithTags(BaseModel):
-    linkId: int
+    linkId: str
     title: str | None
     tags: list[str]
+    keywords: list[str | None]

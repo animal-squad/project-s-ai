@@ -25,6 +25,9 @@ class CrawlabilityChecker:
 
         recent_agent = ""
         for info in texts:
+            if len(info) and info[0] == '#':
+                continue
+
             if info.find(":") != -1:
                 key, value = info.split(":")[:2]
                 key = key.lower()
@@ -91,8 +94,16 @@ class CrawlabilityChecker:
         target_path_list = parsed_url["path"].split("/")
         for disallow in all_agent["Disallow"]:
             disallow_path_list = disallow.split("/")
-
             is_disallow = True  # 주어진 URL이 현재 검사하려는 Disallow path와 같은지
+
+            # 만약 disallow_path의 길이가 더 긴 상황에서 IndexError가 발생하는 상황은 아래와 같은 2가지 경우
+            # target_path = /a/b/c
+            # disallow_path = /*/*/*/d
+            # disallow_path = /a/b/c/d
+            # 위의 두가지 경우 모두 disallow에 해당되지 않기 때문에 크롤링이 가능한 페이지이다.
+            if len(target_path_list) < len(disallow_path_list):
+                break
+
             for idx, path in enumerate(disallow_path_list):
                 # disallow path와 URL의 path가 다른 경우
                 if path != "*" and target_path_list[idx] != path:
