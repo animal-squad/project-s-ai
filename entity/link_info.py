@@ -9,3 +9,4 @@ class LinkWithTags(BaseModel):
     linkId: str
     title: str | None
     tags: list[str]
+    keywords: list[str | None]
