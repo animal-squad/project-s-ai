@@ -15,7 +15,7 @@ gpt_model = GPTModel()
 
 crawlability_checker = CrawlabilityChecker()
 content_extractor = ContentExtractor()
-content_reader = ContentReader(crawlability_checker, content_extractor)
+content_reader = ContentReader(crawlability_checker, content_extractor, get_logger("CrawlabilityLogger"))
 
 extractor_logger = get_logger("ExtractorLogger")
 metadata_extractor = MetadataExtractor(gpt_model, content_reader, extractor_logger)
