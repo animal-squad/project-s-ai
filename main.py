@@ -11,7 +11,7 @@ from service.crawlability_checker import CrawlabilityChecker
 
 app = FastAPI()
 
-gpt_model = GPTModel()
+gpt_model = GPTModel(get_logger("GPTLogger"))
 
 crawlability_checker = CrawlabilityChecker()
 content_extractor = ContentExtractor()
