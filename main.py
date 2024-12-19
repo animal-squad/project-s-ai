@@ -20,6 +20,10 @@ content_reader = ContentReader(crawlability_checker, content_extractor, get_logg
 extractor_logger = get_logger("ExtractorLogger")
 metadata_extractor = MetadataExtractor(gpt_model, content_reader, extractor_logger)
 
+@app.get("/ai")
+async def health_check():
+    return "Good"
+
 @app.post("/ai/extract")
 async def classify_main(req: ExtractRequest):
     """
