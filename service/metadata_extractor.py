@@ -15,6 +15,9 @@ class MetadataExtractor:
 
     @staticmethod
     def _parse_response(response: str) -> list[str]:
+        if response == "None":
+            return []
+
         return list(map(str.strip, response.split(",")))
 
     def extract_metadata_batch(self, contents: list[LinkInfo]) -> list[LinkWithTags]:
