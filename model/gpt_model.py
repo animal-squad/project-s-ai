@@ -1,9 +1,13 @@
+import logging
+import time
+
 from openai import OpenAI
 
 
 class GPTModel:
-    def __init__(self):
+    def __init__(self, logger: logging.Logger):
         self.client = OpenAI()
+        self.logger = logger
 
     def generate_response(self, prompt: str, user_message: str) -> str:
         """
@@ -17,9 +21,12 @@ class GPTModel:
             {"role": "user", "content": user_message}
         ]
 
+        before = time.time()
         response = self.client.chat.completions.create(
             model="gpt-4o-mini",
             messages=messages,
         )
+        self.logger.info(f"[TOKEN] {response.usage.total_tokens}")
+        self.logger.info(f"[TIME] {time.time() - before: .2f}s")
 
         return response.choices[0].message.content

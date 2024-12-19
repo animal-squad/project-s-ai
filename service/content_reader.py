@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 
 import requests
@@ -8,11 +9,12 @@ from service.crawlability_checker import CrawlabilityChecker
 
 
 class ContentReader:
-    def __init__(self, crawlability_checker: CrawlabilityChecker, content_extractor: ContentExtractor):
+    def __init__(self, crawlability_checker: CrawlabilityChecker, content_extractor: ContentExtractor, logger: logging.Logger):
         self.GOOGLE_SEARCH_API_KEY = os.getenv("GOOGLE_SEARCH_API_KEY")
         self.GOOGLE_SEARCH_CX = os.getenv("GOOGLE_SEARCH_CX")
         self.crawlability_checker = crawlability_checker
         self.content_extractor = content_extractor
+        self.logger = logger
 
     def fetch_html_content(self, url: str) -> str:
         """
@@ -73,7 +75,10 @@ class ContentReader:
         """
         if not content:
             if self.crawlability_checker.can_crawl(url):
+                self.logger.info(f" OK  {url}")
                 content = self.fetch_html_content(url)
+            else:
+                self.logger.info(f"[NO] {url}")
 
         if content:
             return self.extract(url, content)
